@@ -1,8 +1,10 @@
 # Mercado Nativo
 
-Tienda web de productos frescos desarrollada como proyecto integrador para el Laboratorio de Ingeniería de Software 3.
+Sitio web con una tienda de productos frescos y la hoja de vida de Sebastian Ruiz Segura, desarrollado como proyecto integrador para el Laboratorio de Ingeniería de Software 3.
 
 ## Funcionalidades
+
+### Tienda de frutas
 
 - Catálogo generado dinámicamente desde un arreglo de objetos.
 - Inventario con estados disponible, últimas unidades y agotado.
@@ -15,6 +17,14 @@ Tienda web de productos frescos desarrollada como proyecto integrador para el La
 - Modo oscuro guardado en el navegador.
 - Aviso de conexión y bloqueo de la confirmación cuando no hay internet.
 - Diseño adaptable para computadores, tabletas y teléfonos.
+
+### Hoja de vida
+
+- Perfil profesional y datos de contacto.
+- Formación académica, experiencia y proyectos universitarios.
+- Habilidades técnicas organizadas por áreas.
+- Enlace directo al proyecto Mercado Nativo.
+- Diseño adaptable y versión optimizada para impresión.
 
 ## Tecnologías
 
@@ -30,9 +40,11 @@ entrega-laboratorio-sw3/
 ├── assets/
 │   └── images/
 ├── css/
+│   ├── cv.css
 │   └── styles.css
 ├── js/
 │   └── app.js
+├── hoja-de-vida.html
 ├── index.html
 └── README.md
 ```
