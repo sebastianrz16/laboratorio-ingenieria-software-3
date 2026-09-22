@@ -22,12 +22,19 @@
       </span>
     </a>
 
-    <div class="header-status" aria-label="Estado del catálogo">
-      <span><strong id="total-productos">0</strong> productos</span>
-      <span><strong id="unidades-disponibles">0</strong> unidades disponibles</span>
-      <span><strong id="contador-carrito">0</strong> en el carrito</span>
+    <div class="header-actions">
+      <div class="header-status" aria-label="Estado del catálogo">
+        <span><strong id="total-productos">0</strong> productos</span>
+        <span><strong id="unidades-disponibles">0</strong> unidades</span>
+        <a class="header-cart-link" href="#carrito"><strong id="contador-carrito">0</strong> en el carrito</a>
+      </div>
+      <button id="btn-tema" class="theme-button" type="button" aria-pressed="false">Modo oscuro</button>
     </div>
   </header>
+
+  <p id="aviso-conexion" class="connection-banner" role="status" hidden>
+    Estás sin conexión. Puedes revisar el catálogo, pero no confirmar el pedido.
+  </p>
 
   <main id="contenido">
     <section class="catalog-heading" aria-labelledby="catalogo-title">
@@ -42,12 +49,29 @@
       </div>
     </section>
 
+    <section class="catalog-tools" aria-label="Controles del catálogo">
+      <label class="field search-field" for="buscar-producto">
+        <span>Buscar producto</span>
+        <input id="buscar-producto" type="search" placeholder="Ej. mango o bebida" autocomplete="off">
+      </label>
+      <label class="field" for="filtro-categoria">
+        <span>Categoría</span>
+        <select id="filtro-categoria">
+          <option value="todas">Todas</option>
+          <option value="Fruta">Frutas</option>
+          <option value="Verdura">Verduras</option>
+          <option value="Bebida">Bebidas</option>
+        </select>
+      </label>
+      <p id="resultado-filtro" class="result-count" aria-live="polite"></p>
+    </section>
+
     <div class="store-layout">
       <section aria-label="Productos disponibles">
         <div id="lista-productos" class="product-grid"></div>
       </section>
 
-      <aside class="cart-panel" aria-labelledby="carrito-title">
+      <aside id="carrito" class="cart-panel" aria-labelledby="carrito-title">
         <div class="cart-heading">
           <div>
             <p class="eyebrow">Tu selección</p>
@@ -60,10 +84,36 @@
 
         <div class="cart-summary" aria-label="Resumen de la compra">
           <p><span>Subtotal</span><strong id="texto-subtotal">$0</strong></p>
+          <p id="linea-descuento" hidden><span>Descuento</span><strong id="texto-descuento">-$0</strong></p>
           <p><span>Envío</span><strong id="texto-envio">$0</strong></p>
           <p class="cart-total"><span>Total</span><strong id="texto-total">$0</strong></p>
           <small>El envío es gratis desde $60.000.</small>
         </div>
+
+        <section class="coupon-section" aria-labelledby="cupon-title">
+          <h3 id="cupon-title">Aplicar un cupón</h3>
+          <div class="coupon-row">
+            <label class="sr-only" for="input-descuento">Código del cupón</label>
+            <input id="input-descuento" type="text" placeholder="Código" autocomplete="off">
+            <button id="btn-aplicar-descuento" class="secondary-button" type="button">Aplicar</button>
+          </div>
+          <p>Prueba DESCUENTO10, MITAD o ENVIOGRATIS.</p>
+        </section>
+
+        <form id="form-compra" class="checkout-form">
+          <h3>Finalizar compra</h3>
+          <label class="field" for="input-nombre">
+            <span>Nombre completo</span>
+            <input id="input-nombre" type="text" autocomplete="name" required>
+          </label>
+          <label class="field" for="input-correo">
+            <span>Correo electrónico</span>
+            <input id="input-correo" type="email" autocomplete="email" required>
+          </label>
+          <button id="btn-confirmar" class="checkout-button" type="submit">Confirmar pedido</button>
+        </form>
+
+        <div id="comprobante" class="receipt" aria-live="polite" hidden></div>
       </aside>
     </div>
   </main>
