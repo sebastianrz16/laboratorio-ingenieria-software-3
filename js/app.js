@@ -49,6 +49,7 @@ let categoriaActual = "todas";
 let busquedaActual = "";
 let porcentajeDescuento = 0;
 let envioGratisPorCupon = false;
+let cuponActivo = "";
 let numeroPedido = 1000;
 let temporizadorMensaje;
 
@@ -98,7 +99,24 @@ function mostrarMensaje(texto, tipo = "exito") {
 function reiniciarBeneficios() {
   porcentajeDescuento = 0;
   envioGratisPorCupon = false;
+  cuponActivo = "";
   inputDescuento.value = "";
+}
+
+function validarBeneficios() {
+  if (cuponActivo !== "MITAD") {
+    return;
+  }
+
+  const subtotal = carrito.reduce(
+    (acumulado, item) => acumulado + item.precio * item.cantidad,
+    0
+  );
+
+  if (subtotal < MINIMO_CUPON_MITAD) {
+    reiniciarBeneficios();
+    mostrarMensaje("El cupón MITAD se retiró porque la compra bajó del mínimo requerido.", "error");
+  }
 }
 
 function agregarAlCarrito(idProducto) {
@@ -310,6 +328,7 @@ function renderizarCarrito() {
 }
 
 function actualizarPantalla() {
+  validarBeneficios();
   renderizarProductos();
   renderizarCarrito();
 }
@@ -326,11 +345,13 @@ function aplicarCupon() {
   switch (codigo) {
     case "DESCUENTO10":
       porcentajeDescuento = 0.1;
+      cuponActivo = codigo;
       mostrarMensaje("Cupón aplicado: 10 % de descuento.");
       break;
     case "MITAD":
       if (calcularTotales().subtotal >= MINIMO_CUPON_MITAD) {
         porcentajeDescuento = 0.5;
+        cuponActivo = codigo;
         mostrarMensaje("Cupón aplicado: 50 % de descuento.");
       } else {
         mostrarMensaje(`El cupón MITAD requiere una compra mínima de ${formatearPrecio(MINIMO_CUPON_MITAD)}.`, "error");
@@ -338,6 +359,7 @@ function aplicarCupon() {
       break;
     case "ENVIOGRATIS":
       envioGratisPorCupon = true;
+      cuponActivo = codigo;
       mostrarMensaje("Cupón aplicado: envío gratis.");
       break;
     default:
