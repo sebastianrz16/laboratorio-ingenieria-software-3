@@ -25,6 +25,7 @@
     <div class="header-status" aria-label="Estado del catálogo">
       <span><strong id="total-productos">0</strong> productos</span>
       <span><strong id="unidades-disponibles">0</strong> unidades disponibles</span>
+      <span><strong id="contador-carrito">0</strong> en el carrito</span>
     </div>
   </header>
 
@@ -41,9 +42,30 @@
       </div>
     </section>
 
-    <section aria-label="Productos disponibles">
-      <div id="lista-productos" class="product-grid"></div>
-    </section>
+    <div class="store-layout">
+      <section aria-label="Productos disponibles">
+        <div id="lista-productos" class="product-grid"></div>
+      </section>
+
+      <aside class="cart-panel" aria-labelledby="carrito-title">
+        <div class="cart-heading">
+          <div>
+            <p class="eyebrow">Tu selección</p>
+            <h2 id="carrito-title">Carrito</h2>
+          </div>
+          <span id="cart-badge" class="cart-badge" aria-hidden="true">0</span>
+        </div>
+
+        <div id="items-carrito" class="cart-items"></div>
+
+        <div class="cart-summary" aria-label="Resumen de la compra">
+          <p><span>Subtotal</span><strong id="texto-subtotal">$0</strong></p>
+          <p><span>Envío</span><strong id="texto-envio">$0</strong></p>
+          <p class="cart-total"><span>Total</span><strong id="texto-total">$0</strong></p>
+          <small>El envío es gratis desde $60.000.</small>
+        </div>
+      </aside>
+    </div>
   </main>
 
   <div id="mensaje-sistema" class="toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>

@@ -18,8 +18,18 @@ const productos = [
 const listaProductos = document.getElementById("lista-productos");
 const totalProductos = document.getElementById("total-productos");
 const unidadesDisponibles = document.getElementById("unidades-disponibles");
+const contadorCarrito = document.getElementById("contador-carrito");
+const cartBadge = document.getElementById("cart-badge");
+const itemsCarrito = document.getElementById("items-carrito");
+const textoSubtotal = document.getElementById("texto-subtotal");
+const textoEnvio = document.getElementById("texto-envio");
+const textoTotal = document.getElementById("texto-total");
 const mensajeSistema = document.getElementById("mensaje-sistema");
 
+const COSTO_ENVIO = 7000;
+const MINIMO_ENVIO_GRATIS = 60000;
+
+let carrito = [];
 let temporizadorMensaje;
 
 const formatearPrecio = (valor) => new Intl.NumberFormat("es-CO", {
@@ -55,7 +65,11 @@ function mostrarMensaje(texto, tipo = "exito") {
   }, 3000);
 }
 
-function comprarProducto(idProducto) {
+function buscarItemCarrito(idProducto) {
+  return carrito.find((item) => item.id === idProducto);
+}
+
+function agregarAlCarrito(idProducto) {
   const producto = buscarProducto(idProducto);
 
   if (!producto || producto.stock === 0) {
@@ -63,9 +77,65 @@ function comprarProducto(idProducto) {
     return;
   }
 
+  const itemExistente = buscarItemCarrito(idProducto);
+
+  if (itemExistente) {
+    itemExistente.cantidad += 1;
+  } else {
+    carrito.push({
+      id: producto.id,
+      nombre: producto.nombre,
+      precio: producto.precio,
+      imagen: producto.imagen,
+      cantidad: 1
+    });
+  }
+
   producto.stock -= 1;
-  mostrarMensaje(`${producto.nombre} se agregó correctamente.`);
-  renderizarProductos();
+  mostrarMensaje(`${producto.nombre} se agregó al carrito.`);
+  actualizarPantalla();
+}
+
+function cambiarCantidad(idProducto, cambio) {
+  const item = buscarItemCarrito(idProducto);
+  const producto = buscarProducto(idProducto);
+
+  if (!item || !producto) {
+    return;
+  }
+
+  if (cambio > 0) {
+    if (producto.stock === 0) {
+      mostrarMensaje("No quedan más unidades disponibles.", "error");
+      return;
+    }
+
+    item.cantidad += 1;
+    producto.stock -= 1;
+  } else {
+    item.cantidad -= 1;
+    producto.stock += 1;
+
+    if (item.cantidad === 0) {
+      carrito = carrito.filter((linea) => linea.id !== idProducto);
+    }
+  }
+
+  actualizarPantalla();
+}
+
+function quitarDelCarrito(idProducto) {
+  const item = buscarItemCarrito(idProducto);
+  const producto = buscarProducto(idProducto);
+
+  if (!item || !producto) {
+    return;
+  }
+
+  producto.stock += item.cantidad;
+  carrito = carrito.filter((linea) => linea.id !== idProducto);
+  mostrarMensaje(`${producto.nombre} se retiró del carrito.`);
+  actualizarPantalla();
 }
 
 function actualizarIndicadores() {
@@ -99,7 +169,7 @@ function crearTarjetaProducto(producto) {
   `;
 
   const boton = tarjeta.querySelector("button");
-  boton.addEventListener("click", () => comprarProducto(producto.id));
+  boton.addEventListener("click", () => agregarAlCarrito(producto.id));
   return tarjeta;
 }
 
@@ -108,6 +178,72 @@ function renderizarProductos() {
   actualizarIndicadores();
 }
 
-(function iniciarTienda() {
+function crearLineaCarrito(item) {
+  const linea = document.createElement("article");
+  linea.className = "cart-item";
+  linea.innerHTML = `
+    <img src="${item.imagen}" alt="" width="96" height="96">
+    <div class="cart-item-main">
+      <div class="cart-item-top">
+        <h3>${item.nombre}</h3>
+        <button class="remove-button" type="button" aria-label="Quitar ${item.nombre} del carrito">Quitar</button>
+      </div>
+      <div class="cart-item-bottom">
+        <div class="quantity-controls" aria-label="Cantidad de ${item.nombre}">
+          <button class="cart-control decrease" type="button" aria-label="Restar una unidad">−</button>
+          <strong aria-label="${item.cantidad} unidades">${item.cantidad}</strong>
+          <button class="cart-control increase" type="button" aria-label="Sumar una unidad">+</button>
+        </div>
+        <span class="cart-item-price">${formatearPrecio(item.precio * item.cantidad)}</span>
+      </div>
+    </div>
+  `;
+
+  linea.querySelector(".decrease").addEventListener("click", () => cambiarCantidad(item.id, -1));
+  linea.querySelector(".increase").addEventListener("click", () => cambiarCantidad(item.id, 1));
+  linea.querySelector(".remove-button").addEventListener("click", () => quitarDelCarrito(item.id));
+  return linea;
+}
+
+function calcularTotales() {
+  const subtotal = carrito.reduce(
+    (acumulado, item) => acumulado + item.precio * item.cantidad,
+    0
+  );
+  const envio = subtotal === 0 || subtotal >= MINIMO_ENVIO_GRATIS ? 0 : COSTO_ENVIO;
+
+  return {
+    subtotal,
+    envio,
+    total: subtotal + envio
+  };
+}
+
+function renderizarCarrito() {
+  if (carrito.length === 0) {
+    const vacio = document.createElement("p");
+    vacio.className = "cart-empty";
+    vacio.textContent = "Tu carrito está vacío. Agrega un producto para comenzar.";
+    itemsCarrito.replaceChildren(vacio);
+  } else {
+    itemsCarrito.replaceChildren(...carrito.map(crearLineaCarrito));
+  }
+
+  const unidades = carrito.reduce((total, item) => total + item.cantidad, 0);
+  const totales = calcularTotales();
+
+  contadorCarrito.textContent = String(unidades);
+  cartBadge.textContent = String(unidades);
+  textoSubtotal.textContent = formatearPrecio(totales.subtotal);
+  textoEnvio.textContent = totales.envio === 0 ? "Gratis" : formatearPrecio(totales.envio);
+  textoTotal.textContent = formatearPrecio(totales.total);
+}
+
+function actualizarPantalla() {
   renderizarProductos();
+  renderizarCarrito();
+}
+
+(function iniciarTienda() {
+  actualizarPantalla();
 })();
