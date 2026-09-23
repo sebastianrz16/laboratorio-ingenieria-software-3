@@ -2,6 +2,13 @@
 
 Sitio web con una tienda de productos frescos y la hoja de vida de Sebastian Ruiz Segura, desarrollado como proyecto integrador para el Laboratorio de Ingeniería de Software 3.
 
+## Enlaces de entrega
+
+- Repositorio: https://github.com/sebastianrz16/laboratorio-ingenieria-software-3
+- Tienda web: https://sebastianrz16.github.io/laboratorio-ingenieria-software-3/
+- Hoja de vida: https://sebastianrz16.github.io/laboratorio-ingenieria-software-3/hoja-de-vida.html
+- Proyectos: https://sebastianrz16.github.io/laboratorio-ingenieria-software-3/proyectos.html
+
 ## Funcionalidades
 
 ### Tienda de frutas
