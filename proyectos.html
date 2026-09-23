@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Proyectos académicos y web de Sebastian Ruiz Segura, estudiante de Ingeniería de Sistemas.">
+  <meta name="theme-color" content="#111214">
+  <title>Proyectos | Sebastian Ruiz Segura</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23111214'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Arial' font-size='24' font-weight='700' fill='%23ffffff'%3ESR%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/cv.css">
+  <script src="js/projects.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#proyectos">Saltar al contenido</a>
+
+  <header class="cv-header">
+    <a class="identity" href="hoja-de-vida.html" aria-label="Hoja de vida de Sebastian Ruiz Segura">
+      <span class="identity-mark" aria-hidden="true">SR</span>
+      <span>
+        <strong>Sebastian Ruiz Segura</strong>
+        <small>Ingeniería de Sistemas</small>
+      </span>
+    </a>
+
+    <nav class="cv-nav" aria-label="Navegación principal">
+      <a href="index.html">Tienda de frutas</a>
+      <a class="active" href="proyectos.html" aria-current="page">Proyectos</a>
+      <a href="hoja-de-vida.html">Hoja de vida</a>
+    </nav>
+  </header>
+
+  <main id="proyectos" class="projects-shell">
+    <div class="projects-intro">
+      <p class="eyebrow">Portafolio / Sebastian Ruiz Segura</p>
+      <h1>Proyectos</h1>
+      <p>Trabajos académicos y personales en desarrollo web, Java, sistemas embebidos y sistemas operativos. Cada tarjeta incluye un enlace al proyecto o a su código.</p>
+    </div>
+
+    <div class="project-filters" role="group" aria-label="Filtrar proyectos por área">
+      <button class="filter-button" type="button" data-filter="todos" aria-pressed="true">Todos</button>
+      <button class="filter-button" type="button" data-filter="web" aria-pressed="false">Desarrollo web</button>
+      <button class="filter-button" type="button" data-filter="java" aria-pressed="false">Java</button>
+      <button class="filter-button" type="button" data-filter="embebidos" aria-pressed="false">Embebidos</button>
+      <button class="filter-button" type="button" data-filter="sistemas" aria-pressed="false">Sistemas operativos</button>
+    </div>
+
+    <div class="project-grid">
+      <article class="project-card" data-category="web">
+        <p class="project-category">Desarrollo web</p>
+        <h2>Mercado Nativo</h2>
+        <p class="project-summary">Tienda web de productos frescos.</p>
+        <p>Catálogo dinámico con búsqueda, filtros, inventario, carrito, cupones y comprobante de compra. Desarrollada para el Laboratorio de Ingeniería de Software 3.</p>
+        <ul class="project-tags" aria-label="Tecnologías"><li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>Git</li></ul>
+        <a class="project-link" href="index.html">Abrir tienda <span aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="project-card" data-category="java">
+        <p class="project-category">Java</p>
+        <h2>Sistema bibliotecario</h2>
+        <p class="project-summary">Gestión de libros, lectores y préstamos.</p>
+        <p>Proyecto académico en equipo con operaciones para registrar autores y libros, consultar ejemplares, prestar y devolver copias, y calcular multas por retraso.</p>
+        <ul class="project-tags" aria-label="Tecnologías"><li>Java</li><li>API</li><li>Bibliotecas</li></ul>
+        <a class="project-link" href="https://github.com/sebastianrz16/SitemaBibliotecario-Final-32933horas-de-trabajo" target="_blank" rel="noopener noreferrer">Ver repositorio <span aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="project-card" data-category="embebidos">
+        <p class="project-category">Sistemas embebidos</p>
+        <h2>Confort térmico y acceso RFID</h2>
+        <p class="project-summary">Proyecto final de Arquitectura de Computadores.</p>
+        <p>Implementación en Arduino de un sistema de confort térmico con control de acceso RFID. El repositorio conserva el código fuente del proyecto.</p>
+        <ul class="project-tags" aria-label="Tecnologías"><li>Arduino</li><li>C++</li><li>RFID</li></ul>
+        <a class="project-link" href="https://github.com/sebastianrz16/Proyecto-Final-AC" target="_blank" rel="noopener noreferrer">Ver repositorio <span aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="project-card" data-category="sistemas">
+        <p class="project-category">Sistemas operativos</p>
+        <h2>Laboratorio de procesos</h2>
+        <p class="project-summary">Prácticas con llamadas al sistema y procesos.</p>
+        <p>Ejercicios en C y scripts de shell para consultar identificadores de procesos, leer información de <code>/proc</code> y documentar el comportamiento de la salida estándar.</p>
+        <ul class="project-tags" aria-label="Tecnologías"><li>C</li><li>Shell</li><li>Linux</li></ul>
+        <a class="project-link" href="https://github.com/sebastianrz16/LaboratorioSistemasOperativos" target="_blank" rel="noopener noreferrer">Ver repositorio <span aria-hidden="true">→</span></a>
+      </article>
+    </div>
+  </main>
+
+  <footer class="cv-footer">
+    <p>Proyectos de Sebastian Ruiz Segura</p>
+    <a href="https://github.com/sebastianrz16" target="_blank" rel="noopener noreferrer">github.com/sebastianrz16</a>
+  </footer>
+</body>
+</html>

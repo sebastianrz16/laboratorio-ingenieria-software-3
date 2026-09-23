@@ -23,6 +23,7 @@
 
     <nav class="cv-nav" aria-label="Navegación principal">
       <a href="index.html">Tienda de frutas</a>
+      <a href="proyectos.html">Proyectos</a>
       <a class="active" href="hoja-de-vida.html" aria-current="page">Hoja de vida</a>
     </nav>
   </header>
@@ -34,6 +35,7 @@
         <h1 id="nombre">Sebastian<br>Ruiz Segura</h1>
         <p class="role">Estudiante de Ingeniería de Sistemas · Séptimo semestre</p>
         <p class="summary">Interesado en aplicar y fortalecer mis conocimientos en programación, desarrollo web y bases de datos. Busco oportunidades que me permitan contribuir a una organización mientras continúo creciendo como profesional.</p>
+        <a class="hero-project-link" href="proyectos.html">Ver mis proyectos <span aria-hidden="true">→</span></a>
       </div>
 
       <aside class="contact-card" aria-label="Información de contacto">
@@ -49,7 +51,7 @@
         <section class="resume-section" aria-labelledby="experiencia-title">
           <div class="section-heading">
             <p>01</p>
-            <h2 id="experiencia-title">Experiencia y proyectos</h2>
+            <h2 id="experiencia-title">Experiencia</h2>
           </div>
 
           <article class="timeline-item">
@@ -67,36 +69,13 @@
             </div>
           </article>
 
-          <article class="timeline-item">
-            <div class="timeline-meta">
-              <p>2023 — presente</p>
-              <p>Formación práctica</p>
-            </div>
-            <div>
-              <h3>Proyectos universitarios</h3>
-              <p class="organization">Universidad del Cauca</p>
-              <ul>
-                <li>Participación en proyectos académicos de programación, bases de datos y desarrollo web.</li>
-                <li>Aplicación de Java, C++, JavaScript y Excel para resolver problemas prácticos.</li>
-              </ul>
-            </div>
-          </article>
-
-          <article class="featured-project">
-            <div>
-              <p class="project-kicker">Proyecto destacado</p>
-              <h3>Mercado Nativo</h3>
-              <p>Tienda web con catálogo dinámico, inventario, carrito, filtros, cupones, comprobante de compra y modo oscuro.</p>
-            </div>
-            <a href="index.html">Ver proyecto <span aria-hidden="true">→</span></a>
-          </article>
         </section>
       </div>
 
       <aside class="side-column">
         <section class="resume-section" aria-labelledby="educacion-title">
           <div class="section-heading compact">
-            <p>02</p>
+            <p>03</p>
             <h2 id="educacion-title">Educación</h2>
           </div>
           <article class="education-card">
@@ -109,7 +88,7 @@
 
         <section class="resume-section" aria-labelledby="habilidades-title">
           <div class="section-heading compact">
-            <p>03</p>
+            <p>04</p>
             <h2 id="habilidades-title">Habilidades</h2>
           </div>
 
@@ -149,6 +128,43 @@
         </section>
       </aside>
     </div>
+
+    <section class="portfolio-preview" aria-labelledby="proyectos-title">
+      <div class="portfolio-heading">
+        <div>
+          <p class="eyebrow">02 / Selección de trabajos</p>
+          <h2 id="proyectos-title">Proyectos</h2>
+          <p>Una muestra de proyectos académicos y de desarrollo web que puedes explorar.</p>
+        </div>
+        <a href="proyectos.html">Ver todos los proyectos <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="portfolio-grid">
+        <article class="portfolio-card">
+          <p class="portfolio-category">Desarrollo web</p>
+          <h3>Mercado Nativo</h3>
+          <p>Tienda de frutas con catálogo dinámico, inventario, carrito, filtros y comprobante de compra.</p>
+          <ul class="project-tags" aria-label="Tecnologías"><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+          <a href="index.html">Abrir proyecto <span aria-hidden="true">→</span></a>
+        </article>
+
+        <article class="portfolio-card">
+          <p class="portfolio-category">Java</p>
+          <h3>Sistema bibliotecario</h3>
+          <p>Aplicación académica para registrar libros y lectores, gestionar préstamos, devoluciones y multas.</p>
+          <ul class="project-tags" aria-label="Tecnologías"><li>Java</li><li>API</li><li>Bibliotecas</li></ul>
+          <a href="https://github.com/sebastianrz16/SitemaBibliotecario-Final-32933horas-de-trabajo" target="_blank" rel="noopener noreferrer">Ver repositorio <span aria-hidden="true">→</span></a>
+        </article>
+
+        <article class="portfolio-card">
+          <p class="portfolio-category">Sistemas embebidos</p>
+          <h3>Confort térmico y acceso RFID</h3>
+          <p>Proyecto de Arduino que combina control de confort térmico con acceso mediante RFID.</p>
+          <ul class="project-tags" aria-label="Tecnologías"><li>Arduino</li><li>C++</li><li>RFID</li></ul>
+          <a href="https://github.com/sebastianrz16/Proyecto-Final-AC" target="_blank" rel="noopener noreferrer">Ver repositorio <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </section>
   </main>
 
   <footer class="cv-footer">

@@ -18,12 +18,13 @@ Sitio web con una tienda de productos frescos y la hoja de vida de Sebastian Rui
 - Aviso de conexión y bloqueo de la confirmación cuando no hay internet.
 - Diseño adaptable para computadores, tabletas y teléfonos.
 
-### Hoja de vida
+### Hoja de vida y portafolio
 
 - Perfil profesional y datos de contacto.
-- Formación académica, experiencia y proyectos universitarios.
+- Formación académica y experiencia.
 - Habilidades técnicas organizadas por áreas.
-- Enlace directo al proyecto Mercado Nativo.
+- Vista previa de proyectos con enlaces a la tienda y a repositorios públicos.
+- Página de proyectos con tarjetas y filtros por área.
 - Diseño adaptable y versión optimizada para impresión.
 
 ## Tecnologías
@@ -43,9 +44,11 @@ entrega-laboratorio-sw3/
 │   ├── cv.css
 │   └── styles.css
 ├── js/
-│   └── app.js
+│   ├── app.js
+│   └── projects.js
 ├── hoja-de-vida.html
 ├── index.html
+├── proyectos.html
 └── README.md
 ```
 
