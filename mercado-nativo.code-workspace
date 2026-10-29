@@ -1,0 +1,7 @@
+{
+  "folders": [{ "path": ".", "name": "Mercado Nativo · entrega 2" }],
+  "settings": {
+    "files.exclude": { "**/node_modules": true, "**/.angular": true, "**/target": true },
+    "files.encoding": "utf8"
+  }
+}

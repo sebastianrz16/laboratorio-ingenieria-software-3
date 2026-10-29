@@ -582,6 +582,8 @@ fieldset {
   margin: 0;
 }
 .skip-link {
+  opacity: 0;
+  pointer-events: none;
   position: fixed;
   z-index: 100;
   top: 0.5rem;
@@ -592,6 +594,8 @@ fieldset {
   transform: translateY(-160%);
 }
 .skip-link:focus {
+  opacity: 1;
+  pointer-events: auto;
   transform: translateY(0);
 }
 .sr-only {
