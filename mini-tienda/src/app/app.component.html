@@ -1,46 +1,105 @@
 <a class="skip-link" href="#contenido">Saltar al contenido</a>
-
 <header class="site-header">
-  <div class="brand">
-    <span class="brand-mark" aria-hidden="true">MN</span>
-    <span>
-      <strong>Mercado Nativo</strong>
-      <small>Fresco desde el origen</small>
-    </span>
-  </div>
-
-  <div class="header-actions">
-    <div class="header-status">
-      <a class="header-cart-link" href="#carrito"><strong id="contador-carrito">{{ cantidadCarrito() }}</strong> en el carrito</a>
-    </div>
-  </div>
+  <a class="brand" href="#contenido" aria-label="Mercado Nativo, inicio"
+    ><span class="brand-mark" aria-hidden="true">MN</span
+    ><span
+      ><strong>Mercado Nativo</strong
+      ><small>Fresco desde el origen</small></span
+    ></a
+  >
+  <nav aria-label="Secciones">
+    <a href="#catalogo">Catálogo</a><a href="#nuevo-producto">Nuevo producto</a
+    ><a class="header-cart-link" href="#carrito"
+      >Carrito <strong>{{ cantidadCarrito() }}</strong></a
+    >
+  </nav>
 </header>
-
 <main id="contenido">
-  <section class="catalog-heading">
+  <section class="catalog-heading" aria-labelledby="titulo">
     <div>
-      <p class="eyebrow">Catálogo de temporada</p>
-      <h1>Productos frescos para tu mesa</h1>
-      <p class="intro">Elige frutas, verduras y bebidas. El inventario se actualiza en tiempo real con cada compra.</p>
+      <p class="eyebrow">Catálogo e inventario</p>
+      <h1 id="titulo">Lo fresco empieza aquí.</h1>
+      <p class="intro">
+        Elige tus frutas y administra las existencias. Cada cambio se guarda en
+        la tienda.
+      </p>
+      @if (!cargando() && !errorCarga()) {
+        <p class="inventory-count" aria-live="polite">
+          Productos con stock bajo: <strong>{{ productosStockBajo() }}</strong>
+        </p>
+      }
     </div>
     <div class="season-badge">
-      <span aria-hidden="true">●</span>
-      Selección de temporada
+      <span aria-hidden="true">●</span> Reposición controlada
     </div>
   </section>
-
   <div class="store-layout">
-    <section aria-label="Productos disponibles">
-      <div class="product-grid">
-        @for (prod of catalogo(); track prod.id) {
-          <app-producto-card 
-            [producto]="prod" 
-            (comprar)="agregarAlCarrito($event)">
-          </app-producto-card>
-        }
+    <section
+      id="catalogo"
+      aria-label="Productos disponibles"
+      [attr.aria-busy]="cargando()"
+    >
+      <div class="section-heading">
+        <h2>Selección de temporada</h2>
+        <span>{{ catalogo().length }} productos</span>
       </div>
+      @if (cargando()) {
+        <p class="sr-only" role="status">Cargando productos</p>
+        <div class="product-grid" aria-hidden="true">
+          @for (item of [1, 2, 3, 4]; track item) {
+            <div class="skeleton-card">
+              <div class="skeleton-image"></div>
+              <div class="skeleton-line"></div>
+              <div class="skeleton-line short"></div>
+              <div class="skeleton-line"></div>
+            </div>
+          }
+        </div>
+      } @else if (errorCarga()) {
+        <div class="state-panel error-panel" role="alert">
+          <h3>No pudimos abrir el catálogo</h3>
+          <p>{{ errorCarga() }}</p>
+          <button class="product-button" (click)="cargarProductos()">
+            Reintentar
+          </button>
+        </div>
+      } @else if (catalogo().length === 0) {
+        <div class="state-panel">
+          <h3>Aún no hay productos</h3>
+          <p>Crea el primer producto con el formulario de abajo.</p>
+          <a class="text-link" href="#nuevo-producto">Crear un producto</a>
+        </div>
+      } @else {
+        <div class="product-grid">
+          @for (prod of catalogo(); track prod.id) {
+            <app-producto-card
+              [producto]="prod"
+              [ocupado]="ocupados().includes(prod.id)"
+              (comprar)="agregarAlCarrito($event)"
+              (reponer)="reponerStock($event)"
+              (eliminar)="eliminarProducto($event)"
+            />
+          }
+        </div>
+      }
+      <section
+        id="nuevo-producto"
+        class="form-panel"
+        aria-labelledby="form-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Administración</p>
+            <h2 id="form-title">Nuevo producto</h2>
+          </div>
+          <span>Datos guardados en el servidor</span>
+        </div>
+        <app-producto-form
+          [guardando]="guardando()"
+          (guardar)="crearProducto($event)"
+        />
+      </section>
     </section>
-
     <aside id="carrito" class="cart-panel" aria-labelledby="carrito-title">
       <div class="cart-heading">
         <div>
@@ -49,42 +108,64 @@
         </div>
         <span class="cart-badge">{{ cantidadCarrito() }}</span>
       </div>
-
       <div class="cart-items">
         @if (carrito().length === 0) {
-          <p class="cart-empty">El carrito está vacío.</p>
+          <p class="cart-empty">
+            Tu carrito está vacío.<br /><small
+              >Agrega algo fresco para empezar.</small
+            >
+          </p>
         } @else {
           @for (item of carrito(); track item.producto.id) {
             <div class="cart-item">
-              <img [src]="item.producto.imagen" [alt]="item.producto.nombre">
-              <div class="cart-item-main">
-                <div class="cart-item-top">
-                  <h3>{{ item.producto.nombre }}</h3>
-                </div>
-                <div class="cart-item-bottom">
-                  <span>Cant: {{ item.cantidad }}</span>
-                  <span class="cart-item-price">${{ (item.producto.precio * item.cantidad).toFixed(2) }}</span>
-                </div>
+              <div>
+                <h3>{{ item.producto.nombre }}</h3>
+                <span
+                  >{{ item.cantidad }} × ${{
+                    item.producto.precio | number: "1.2-2"
+                  }}</span
+                >
               </div>
+              <strong
+                >${{
+                  item.producto.precio * item.cantidad | number: "1.2-2"
+                }}</strong
+              >
             </div>
           }
         }
       </div>
-
-      <div class="cart-summary" aria-label="Resumen de la compra">
-        <p class="cart-total"><span>Total</span><strong>${{ totalCarrito().toFixed(2) }}</strong></p>
+      <div class="cart-summary">
+        <p>
+          <span>Total</span
+          ><strong>${{ totalCarrito() | number: "1.2-2" }}</strong>
+        </p>
+        <small
+          >Práctica de laboratorio: Comprar descuenta una unidad en la base de
+          datos. El carrito es temporal y se vacía al recargar.</small
+        >
+      </div>
+      <div class="stock-note">
+        <strong>Cómo funciona la reposición</strong>
+        <p>
+          De 1 a 20 unidades por operación. El inventario no puede superar 50
+          unidades por producto.
+        </p>
       </div>
     </aside>
   </div>
 </main>
-
-@if (mensaje()) {
-  <div class="toast" [class.error]="mensaje()?.tipo === 'error'">
-    {{ mensaje()?.texto }}
-  </div>
-}
-
+<div
+  class="notice"
+  [class.notice-error]="esError()"
+  [class.notice-visible]="!!mensaje()"
+  role="status"
+  aria-live="polite"
+  aria-atomic="true"
+>
+  {{ mensaje() }}
+</div>
 <footer class="site-footer">
-  <p>Mercado Nativo</p>
-  <p>Proyecto Angular - Mini Tienda</p>
+  <p>Mercado Nativo · Mini tienda</p>
+  <p>Angular + Spring Boot · Funcionalidad B</p>
 </footer>

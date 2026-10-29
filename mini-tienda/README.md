@@ -1,27 +1,38 @@
-# MiniTienda
+# Mercado Nativo — frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.21.
+Mini tienda en Angular 21.2 con componentes standalone y signals. Continúa el diseño de la primera práctica y consulta el inventario de Spring Boot.
 
-## Development server
+## Ejecutar
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Requiere Node.js 24 y el backend encendido en el puerto 8081.
 
-## Code scaffolding
+```powershell
+npm ci
+npm start
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Abrir http://localhost:4200. La URL de la API se configura en `src/environments/environment.ts`.
 
-## Build
+## Verificar
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```powershell
+npm run build
+npm run test:ci
+```
 
-## Running unit tests
+Las pruebas usan Chrome Headless. Si Chrome no está en la ruta habitual, definir `CHROME_BIN` con la ubicación de su ejecutable.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Organización
 
-## Running end-to-end tests
+- `app.component.ts`: carga del catálogo, acciones contra la API, carrito y contador de stock bajo.
+- `servicios/producto-api.ts`: peticiones HTTP; los componentes hijos no acceden directamente al servidor.
+- `components/producto-card`: recibe el producto por `input.required()` y emite eventos de compra, reposición y eliminación.
+- `components/producto-form`: formulario con signals y `ngModel`; mantiene sus datos si el servidor rechaza la creación.
+- `models/producto.interface.ts`: contrato compartido con la entidad Java, incluido `stockMinimo`.
+- `public/imagenes`: ilustraciones SVG locales; no hacen falta descargas externas.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+El servidor valida la reposición: de 1 a 20 unidades y máximo 50 unidades finales. La interfaz permite enviar valores fuera de rango para mostrar el mensaje real del servidor. El contador incluye agotados; el aviso «¡Stock bajo!» aparece solo si queda alguna unidad.
 
-## Further help
+El carrito es temporal, como en la guía: recargar borra su contenido, pero el stock comprado ya quedó guardado en la base de datos. No es un checkout de producción ni maneja pagos.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Ver el README de la carpeta principal para entrega, demostración y pruebas del backend.
