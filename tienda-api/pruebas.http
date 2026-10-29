@@ -1,0 +1,65 @@
+@base = http://localhost:8081/api/productos
+
+# Ejecutar las ocho pruebas base en orden. La creación captura su id para PUT y DELETE.
+# La sección B debe ejecutarse en otra base de demostración nueva (ver README raíz).
+
+### 1. Listar productos — esperado 200, cuatro frutas en una base nueva
+GET {{base}}
+
+### 2. Buscar la manzana — esperado 200
+GET {{base}}/1
+
+### 3. Crear un mango — esperado 201, stockMinimo por defecto 2
+# @name crearMango
+POST {{base}}
+Content-Type: application/json
+
+{"nombre":"Mango","precio":8.9,"stock":10,"imagen":"/imagenes/mango.svg"}
+
+### 4. Actualizar el mango — esperado 200
+PUT {{base}}/{{crearMango.response.body.$.id}}
+Content-Type: application/json
+
+{"nombre":"Mango tommy","precio":9.5,"stock":12,"imagen":"/imagenes/mango.svg","stockMinimo":2}
+
+### 5. Comprar una pera — esperado 200, stock 1
+POST {{base}}/3/comprar
+
+### 6. Comprar papaya agotada — esperado 409, Lo sentimos, ya no hay stock
+POST {{base}}/4/comprar
+
+### 7. Crear producto inválido — esperado 400, nombre y precio
+POST {{base}}
+Content-Type: application/json
+
+{"nombre":"","precio":-3,"stock":1}
+
+### 8. Eliminar el mango — esperado 204, sin cuerpo
+DELETE {{base}}/{{crearMango.response.body.$.id}}
+
+### FUNCIONALIDAD B
+# Comenzar en una base NUEVA: Manzana 3, Piña 5, Pera 2, Papaya 0.
+# No usar inmediatamente después de las pruebas base: la prueba 5 compra una pera.
+
+### B1. Reponer 5 a la pera — esperado 200, stock 7
+POST {{base}}/3/reponer/5
+
+### B2. Reponer 30 a la piña — esperado 400
+# {"mensaje":"La cantidad debe estar entre 1 y 20"}
+POST {{base}}/2/reponer/30
+
+### B3.1. Reponer 20 a la piña — esperado 200, stock 25
+POST {{base}}/2/reponer/20
+
+### B3.2. Reponer otras 20 a la piña — esperado 200, stock 45
+POST {{base}}/2/reponer/20
+
+### B3.3. Superar el límite — esperado 409, el stock se conserva en 45
+# {"mensaje":"El stock no puede superar las 50 unidades"}
+POST {{base}}/2/reponer/20
+
+### B4. Crear con stock mínimo negativo — esperado 400
+POST {{base}}
+Content-Type: application/json
+
+{"nombre":"Mango","precio":8.9,"stock":10,"stockMinimo":-1,"imagen":"/imagenes/mango.svg"}
