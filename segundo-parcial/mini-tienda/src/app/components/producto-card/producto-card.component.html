@@ -1,0 +1,76 @@
+<article
+  class="product-card"
+  [class.is-out]="producto().stock === 0"
+  [attr.aria-busy]="ocupado()"
+>
+  <div class="product-media">
+    @if (producto().stock === 0) {
+      <span class="stock-pill out">Agotado</span>
+    } @else if (producto().stock <= producto().stockMinimo) {
+      <span class="stock-pill low">¡Stock bajo!</span>
+    } @else {
+      <span class="stock-pill">Disponible</span>
+    }
+    <img
+      [src]="
+        imagenFallida() || !producto().imagen
+          ? '/imagenes/mango.svg'
+          : producto().imagen
+      "
+      [alt]="producto().nombre"
+      (error)="imagenFallida.set(true)"
+      width="400"
+      height="300"
+    />
+  </div>
+  <div class="product-body">
+    <p class="product-category">Fruta de temporada</p>
+    <h3>{{ producto().nombre }}</h3>
+    <p class="product-unit">
+      Stock: <strong>{{ producto().stock }}</strong> · Mínimo:
+      {{ producto().stockMinimo }}
+    </p>
+    <div class="product-bottom">
+      <span class="product-price"
+        >${{ producto().precio | number: "1.2-2" }}</span
+      ><button
+        class="product-button"
+        (click)="comprar.emit(producto().id)"
+        [disabled]="producto().stock === 0 || ocupado()"
+        [attr.aria-label]="'Comprar ' + producto().nombre"
+      >
+        {{ ocupado() ? "Procesando…" : "Comprar" }}
+      </button>
+    </div>
+    <div class="product-admin">
+      <label [for]="'cantidad-' + producto().id"
+        >Unidades a reponer <small>(1–20)</small></label
+      >
+      <div class="restock-row">
+        <input
+          [id]="'cantidad-' + producto().id"
+          type="number"
+          step="1"
+          [(ngModel)]="cantidad"
+          [disabled]="ocupado()"
+          [attr.aria-label]="'Unidades a reponer de ' + producto().nombre"
+        /><button
+          class="secondary-button"
+          (click)="reponerProducto()"
+          [disabled]="ocupado() || cantidad() === null"
+          [attr.aria-label]="'Reponer ' + producto().nombre"
+        >
+          Reponer
+        </button>
+      </div>
+      <button
+        class="remove-button"
+        (click)="eliminar.emit(producto().id)"
+        [disabled]="ocupado()"
+        [attr.aria-label]="'Eliminar ' + producto().nombre"
+      >
+        Eliminar producto
+      </button>
+    </div>
+  </div>
+</article>

@@ -4,6 +4,14 @@ Sitio web con una tienda de productos frescos y la hoja de vida de Sebastian Rui
 
 ## Enlaces de entrega
 
+### Segundo parcial: Angular y Spring Boot
+
+La segunda entrega está en [segundo-parcial](segundo-parcial/README.md). Implementa la funcionalidad B: reposición controlada y alertas de stock bajo, con inventario persistente en H2.
+
+Incluye frontend, backend, pruebas HTTP, pruebas automáticas e instrucciones para el video. Se ejecuta localmente con Angular en 4200 y la API en 8081. GitHub Pages mantiene la primera entrega estática; no ejecuta el backend Java.
+
+### Primera entrega
+
 - Repositorio: https://github.com/sebastianrz16/laboratorio-ingenieria-software-3
 - Tienda web: https://sebastianrz16.github.io/laboratorio-ingenieria-software-3/
 - Hoja de vida: https://sebastianrz16.github.io/laboratorio-ingenieria-software-3/hoja-de-vida.html

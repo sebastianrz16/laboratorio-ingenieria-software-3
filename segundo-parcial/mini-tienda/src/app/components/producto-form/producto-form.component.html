@@ -1,0 +1,49 @@
+<form (ngSubmit)="enviar()" novalidate [attr.aria-busy]="guardando()">
+  <fieldset [disabled]="guardando()">
+    <legend class="sr-only">Datos del nuevo producto</legend>
+    <div class="form-grid">
+      <label class="field"
+        >Nombre<input
+          name="nombre"
+          [(ngModel)]="nombre"
+          autocomplete="off"
+          placeholder="Ej. Mango tommy"
+      /></label>
+      <label class="field"
+        >Precio ($)<input
+          name="precio"
+          type="number"
+          step="0.01"
+          [(ngModel)]="precio"
+      /></label>
+      <label class="field"
+        >Stock inicial<input
+          name="stock"
+          type="number"
+          step="1"
+          [(ngModel)]="stock"
+      /></label>
+      <label class="field"
+        >Stock mínimo<input
+          name="stockMinimo"
+          type="number"
+          step="1"
+          [(ngModel)]="stockMinimo"
+          aria-describedby="minimo-ayuda"
+      /></label>
+      <label class="field wide"
+        >Ruta de imagen<input
+          name="imagen"
+          [(ngModel)]="imagen"
+          placeholder="/imagenes/mango.svg"
+      /></label>
+    </div>
+    <p class="field-help" id="minimo-ayuda">
+      El stock mínimo activa una alerta cuando las existencias llegan a ese
+      valor. Los datos se validan en el servidor.
+    </p>
+    <button class="product-button" type="submit">
+      {{ guardando() ? "Guardando…" : "Guardar producto" }}
+    </button>
+  </fieldset>
+</form>
