@@ -1,0 +1,24 @@
+<article class="product-card" [class.is-out]="producto().stock === 0">
+  <div class="product-media">
+    @if (producto().stock === 0) {
+      <span class="stock-pill out">Agotado</span>
+    } @else if (producto().stock <= 2) {
+      <span class="stock-pill low">Quedan {{ producto().stock }}</span>
+    }
+    <img [src]="producto().imagen" [alt]="producto().nombre">
+  </div>
+  <div class="product-body">
+    <p class="product-category">Fruta</p>
+    <h2>{{ producto().nombre }}</h2>
+    <p class="product-unit">Stock: {{ producto().stock }}</p>
+    <div class="product-bottom">
+      <span class="product-price">${{ producto().precio.toFixed(2) }}</span>
+      <button 
+        class="product-button" 
+        (click)="onComprar()" 
+        [disabled]="producto().stock === 0">
+        Comprar
+      </button>
+    </div>
+  </div>
+</article>

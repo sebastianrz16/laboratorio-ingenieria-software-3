@@ -1,0 +1,90 @@
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<header class="site-header">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">MN</span>
+    <span>
+      <strong>Mercado Nativo</strong>
+      <small>Fresco desde el origen</small>
+    </span>
+  </div>
+
+  <div class="header-actions">
+    <div class="header-status">
+      <a class="header-cart-link" href="#carrito"><strong id="contador-carrito">{{ cantidadCarrito() }}</strong> en el carrito</a>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+  <section class="catalog-heading">
+    <div>
+      <p class="eyebrow">Catálogo de temporada</p>
+      <h1>Productos frescos para tu mesa</h1>
+      <p class="intro">Elige frutas, verduras y bebidas. El inventario se actualiza en tiempo real con cada compra.</p>
+    </div>
+    <div class="season-badge">
+      <span aria-hidden="true">●</span>
+      Selección de temporada
+    </div>
+  </section>
+
+  <div class="store-layout">
+    <section aria-label="Productos disponibles">
+      <div class="product-grid">
+        @for (prod of catalogo(); track prod.id) {
+          <app-producto-card 
+            [producto]="prod" 
+            (comprar)="agregarAlCarrito($event)">
+          </app-producto-card>
+        }
+      </div>
+    </section>
+
+    <aside id="carrito" class="cart-panel" aria-labelledby="carrito-title">
+      <div class="cart-heading">
+        <div>
+          <p class="eyebrow">Tu selección</p>
+          <h2 id="carrito-title">Carrito</h2>
+        </div>
+        <span class="cart-badge">{{ cantidadCarrito() }}</span>
+      </div>
+
+      <div class="cart-items">
+        @if (carrito().length === 0) {
+          <p class="cart-empty">El carrito está vacío.</p>
+        } @else {
+          @for (item of carrito(); track item.producto.id) {
+            <div class="cart-item">
+              <img [src]="item.producto.imagen" [alt]="item.producto.nombre">
+              <div class="cart-item-main">
+                <div class="cart-item-top">
+                  <h3>{{ item.producto.nombre }}</h3>
+                </div>
+                <div class="cart-item-bottom">
+                  <span>Cant: {{ item.cantidad }}</span>
+                  <span class="cart-item-price">${{ (item.producto.precio * item.cantidad).toFixed(2) }}</span>
+                </div>
+              </div>
+            </div>
+          }
+        }
+      </div>
+
+      <div class="cart-summary" aria-label="Resumen de la compra">
+        <p class="cart-total"><span>Total</span><strong>${{ totalCarrito().toFixed(2) }}</strong></p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+@if (mensaje()) {
+  <div class="toast" [class.error]="mensaje()?.tipo === 'error'">
+    {{ mensaje()?.texto }}
+  </div>
+}
+
+<footer class="site-footer">
+  <p>Mercado Nativo</p>
+  <p>Proyecto Angular - Mini Tienda</p>
+</footer>
