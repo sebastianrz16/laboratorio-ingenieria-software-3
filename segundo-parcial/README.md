@@ -4,6 +4,12 @@ Mini tienda del Laboratorio de Ingeniería de Software III. Continúa la tienda 
 
 **Funcionalidad elegida: B, reposición controlada y alerta de stock bajo.**
 
+## Video de la entrega
+
+[Ver explicación y demostración en YouTube](https://youtu.be/1ELp9X6eCzg).
+
+Esta publicación usa el video original unido, sin la compresión adicional de la copia compartida en Drive.
+
 ## Requisitos
 
 - Java 21 o superior (probado en este equipo con Java 25).
